@@ -34,7 +34,7 @@ int	init_philos(t_data *data)
 		philo->thread_id = data->thread_ids[i];
 		init_philos_forks(data, philo, i);
 		philo->eat_count = 0;
-		philo->last_eat = get_start_time();
+		philo->last_eat = data->start_time;
 		pthread_mutex_init(&philo->last_eat_mutex, 0);
 		philo->dead = FALSE;
 		pthread_mutex_init(&philo->dead_mutex, 0);

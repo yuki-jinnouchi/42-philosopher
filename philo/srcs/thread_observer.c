@@ -30,7 +30,7 @@ int	if_someone_dead(t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
-		if (get_start_time() - get_last_eat(&data->philos[i]) > data->time_to_die && \
+		if (is_philo_starving(&data->philos[i], data) && \
 			!if_philo_dead(&data->philos[i]) && \
 			!if_philo_finished(&data->philos[i]))
 		{
@@ -38,7 +38,7 @@ int	if_someone_dead(t_data *data)
 			data->philos[i].dead = TRUE;
 			pthread_mutex_unlock(&data->philos[i].dead_mutex);
 			finish_everyone(data);
-			printf("%lu %d died\n", get_start_time(), data->philos[i].num_id);
+			printf("%lu %d died\n", get_current_time(data), data->philos[i].num_id);
 			return (TRUE);
 		}
 		i++;

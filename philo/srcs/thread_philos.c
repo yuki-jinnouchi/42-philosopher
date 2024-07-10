@@ -20,7 +20,7 @@ int	philosopher_take_left_fork(t_philo *philo)
 		pthread_mutex_unlock(philo->left_fork);
 		return (FAILURE);
 	}
-	printf("%lu %d has taken a fork\n", get_start_time(), philo->num_id);
+	printf("%lu %d has taken a fork\n", get_current_time(philo->data), philo->num_id);
 	return (SUCCESS);
 }
 
@@ -39,7 +39,7 @@ int	philosopher_take_right_fork(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
 	}
-	printf("%lu %d has taken a fork\n", get_start_time(), philo->num_id);
+	printf("%lu %d has taken a fork\n", get_current_time(philo->data), philo->num_id);
 	return (SUCCESS);
 }
 
@@ -47,11 +47,11 @@ int	philosopher_sleep(t_philo *philo)
 {
 	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
 		return (FAILURE);
-	printf("%lu %d is sleeping\n", get_start_time(), philo->num_id);
+	printf("%lu %d is sleeping\n", get_current_time(philo->data), philo->num_id);
 	msleep(philo->data->time_to_sleep);
 	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
 		return (FAILURE);
-	printf("%lu %d is thinking\n", get_start_time(), philo->num_id);
+	printf("%lu %d is thinking\n", get_current_time(philo->data), philo->num_id);
 	return (SUCCESS);
 }
 
@@ -63,7 +63,7 @@ int	philosopher_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
 	}
-	printf("%lu %d is eating\n", get_start_time(), philo->num_id);
+	printf("%lu %d is eating\n", get_current_time(philo->data), philo->num_id);
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	philo->last_eat = get_start_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
