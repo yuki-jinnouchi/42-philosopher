@@ -77,10 +77,10 @@ typedef struct s_data
 }	t_data;
 
 //main.c
+int			exec(t_data *data);
 int			main(int argc, char **argv);
 
 //init_data.c
-int			philo_atoi(const char *nptr);
 int			init_data_args(int argc, char **argv, t_data *data);
 int			init_data_malloc(t_data *data);
 
@@ -90,36 +90,35 @@ int			init_philos(t_data *data);
 int			init_forks(t_data *data);
 int			init_threads(t_data *data);
 
-//exec.c
-int			exec(t_data *data);
+//thread_philos.c
+int			philosopher_take_right_fork(t_philo *philo);
+int			philosopher_take_left_fork(t_philo *philo);
+int			philosopher_eat(t_philo *philo);
+int			philosopher_sleep(t_philo *philo);
+void		*philosopher(void *val);
 
 //thread_observer.c
-uint64_t	get_last_eat(t_philo *philo);
 int			is_someone_dead(t_data *data);
 int			is_everyone_finish(t_data *data);
 void		make_everyone_finish(t_data *data);
 void		*observer(void *val);
 
-//thread_philos.c
-int			philosopher_take_left_fork(t_philo *philo);
-int			philosopher_take_right_fork(t_philo *philo);
-int			philosopher_sleep(t_philo *philo);
-int			philosopher_eat(t_philo *philo);
-void		*philosopher(void *val);
+//print.c
+void		print_status(t_philo *philo, t_philo_status status);
 
-//utils.c
+//utils_time.c
 uint64_t	get_current_time(void);
 uint64_t	get_time_from_start(t_data *data);
 uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data);
 void		msleep(uint64_t time);
 
-void		print_status(t_philo *philo, t_philo_status status);
-
+//uils_status.c
 int			is_philo_starving(t_philo *philo, t_data *data);
-
-// int			is_philo_dead(t_philo *philo);
 int			is_philo_finished(t_philo *philo);
 int			is_all_finished(t_data *data);
+
+//utils.c
+int			philo_atoi(const char *nptr);
 
 //free.c
 void		free_data(t_data *data);
