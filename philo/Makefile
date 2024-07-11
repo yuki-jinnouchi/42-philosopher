@@ -18,17 +18,9 @@ INCLUDES_DIR =			incl
 OBJECTS_DIR :=			objs
 
 # Files
-# HEADERS =				$(wildcard $(INCLUDES_DIR)/*.h)
-HEADERS =				incl/philo.h
-# SOURCES =				$(wildcard $(SOURCES_DIR)/*.c)
+HEADERS =				$(wildcard $(INCLUDES_DIR)/*.h)
 SOURCES =				$(wildcard $(SOURCES_DIR)/*.c)
 OBJECTS =				$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o,$(SOURCES))
-
-#libraries
-# LIBFT_DIR =				libs/libft
-# LIBFT_INCLUDES_DIR =	$(LIBFT_DIR)/incl
-# LIBFT =					$(LIBFT_DIR)/libft.a
-# LIBFT_LL_FLAGS +=		-lft
 
 # BONUS_SOURCES = \
 # 	$(wildcard $(BONUS_DIR)/*.c)
@@ -39,9 +31,7 @@ OBJECTS =				$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o,$(SOURCES))
 CC = 			cc
 CFLAGS += 		-Wall -Wextra -Werror
 UI_FLAGS +=		-I$(INCLUDES_DIR) # -I$(LIBFT_INCLUDES_DIR)
-# UL_FLAGS := 	-L$(LIBFT_DIR)
-# LL_FLAGS := 	$(LIBFT_LL_FLAGS)
-DEBUG_FLAGS :=	-fsanitize=thread
+# DEBUG_FLAGS :=	-fsanitize=thread
 
 # Phony Targets
 .PHONY: all clean fclean re
@@ -70,7 +60,7 @@ $(OBJECTS_DIR):
 # Clean Targets
 clean:
 	rm -f $(OBJECTS)
-	rm -fd $(OBJECTS_DIR)
+	rm -fdr $(OBJECTS_DIR)
 #	 make clean -C $(LIBFT_DIR)
 fclean: clean
 	rm -f $(OUTPUT_DIR)/$(NAME)
