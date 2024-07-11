@@ -16,8 +16,9 @@ int	is_philo_starving(t_philo *philo, t_data *data)
 {
 	uint64_t	duration;
 
-	duration = get_duration(philo, data);
-	if (duration > data->time_to_die)
+	duration = get_time_from_last_eat(philo, data);
+	if ((int) duration > data->time_to_die && \
+		if_philo_finished(philo) == FALSE)
 		return (TRUE);
 	return (FALSE);
 }

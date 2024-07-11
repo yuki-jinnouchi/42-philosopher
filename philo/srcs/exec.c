@@ -19,7 +19,7 @@ int	exec(t_data *data)
 	if (init_threads(data) == FAILURE)
 		return (FAILURE);
 	while (!if_all_finished(data))
-		msleep(5);
+		msleep(1);
 	pthread_join(data->thread_ids[data->num_philos], NULL);
 	return (SUCCESS);
 }

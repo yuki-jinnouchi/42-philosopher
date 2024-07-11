@@ -30,7 +30,7 @@ int	init_data_args(int argc, char **argv, t_data *data)
 	}
 	else
 		data->max_time_eat = -1;
-	data->start_time = get_start_time();
+	data->start_time = get_current_time();
 	pthread_mutex_init(&data->finished_mutex, 0);
 	data->finished = FALSE;
 	return (SUCCESS);

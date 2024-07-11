@@ -13,7 +13,7 @@
 #include "philo.h"
 
 /*get uint64_t tye timestamp from gettimeofday()*/
-uint64_t	get_start_time(void)
+uint64_t	get_current_time(void)
 {
 	struct timeval	tv;
     uint64_t	time;
@@ -27,7 +27,7 @@ uint64_t	get_start_time(void)
 	return (time);
 }
 
-uint64_t	get_current_time(t_data *data)
+uint64_t	get_time_from_start(t_data *data)
 {
 	struct timeval	tv;
     uint64_t        time;
@@ -42,11 +42,11 @@ uint64_t	get_current_time(t_data *data)
 	return (time);
 }
 
-uint64_t	get_duration(t_philo *philo, t_data *data)
+uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data)
 {
     uint64_t        time;
 
-    time = get_current_time(data);
+    time = get_current_time();
 	pthread_mutex_lock(&philo->last_eat_mutex);
     time = time - philo->last_eat;
 	pthread_mutex_unlock(&philo->last_eat_mutex);

@@ -15,9 +15,11 @@
 int	init_philos_forks(t_data *data, t_philo *philo, int i)
 {
 	philo->right_fork = &data->forks[i];
-	philo->left_fork = &data->forks[i + 1];
 	if (i == data->num_philos - 1)
 		philo->left_fork = &data->forks[0];
+	else
+		philo->left_fork = &data->forks[i + 1];
+	printf("philo %d right fork %p left fork %p\n", philo->num_id, philo->right_fork, philo->left_fork);
 	return (SUCCESS);
 }
 

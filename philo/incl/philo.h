@@ -104,9 +104,9 @@ int			philosopher_eat(t_philo *philo);
 void		*philosopher(void *val);
 
 //utils.c
-uint64_t	get_start_time(void);
-uint64_t	get_current_time(t_data *data);
-uint64_t	get_duration(t_philo *philo, t_data *data);
+uint64_t	get_current_time(void);
+uint64_t	get_time_from_start(t_data *data);
+uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data);
 void		msleep(uint64_t time);
 
 int			is_philo_starving(t_philo *philo, t_data *data);
