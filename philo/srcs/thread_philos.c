@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:30:13 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/07/11 12:07:18 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:22:24 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	philosopher_take_right_fork(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
-	if (if_philo_dead(philo) || if_philo_finished(philo))
+	if (is_philo_dead(philo) || is_philo_finished(philo))
 	{
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
@@ -32,7 +32,7 @@ int	philosopher_take_left_fork(t_philo *philo)
 		return (FAILURE);
 	}
 	pthread_mutex_lock(philo->left_fork);
-	if (if_philo_dead(philo) || if_philo_finished(philo) || \
+	if (is_philo_dead(philo) || is_philo_finished(philo) || \
 		philo->right_fork == philo->left_fork)
 	{
 		pthread_mutex_unlock(philo->right_fork);
@@ -45,11 +45,11 @@ int	philosopher_take_left_fork(t_philo *philo)
 
 int	philosopher_sleep(t_philo *philo)
 {
-	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
+	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
 		return (FAILURE);
 	print_status(philo, SLEEPING);
 	msleep(philo->data->time_to_sleep);
-	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
+	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
 		return (FAILURE);
 	print_status(philo, THINKING);
 	return (SUCCESS);
@@ -57,7 +57,7 @@ int	philosopher_sleep(t_philo *philo)
 
 int	philosopher_eat(t_philo *philo)
 {
-	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
+	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
 	{
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
@@ -86,12 +86,12 @@ void	*philosopher(void *val)
 
 	philo = (t_philo *)val;
 	if (philo->num_id % 2 == 1 && philo->eat_count == 0)
-		msleep(2);
-	while (!if_philo_dead(philo) && !if_philo_finished(philo))
+		usleep(200);
+	while (!is_philo_dead(philo) && !is_philo_finished(philo))
 	{
-		if (philosopher_take_left_fork(philo) == FAILURE)
-			return (NULL);
 		if (philosopher_take_right_fork(philo) == FAILURE)
+			return (NULL);
+		if (philosopher_take_left_fork(philo) == FAILURE)
 			return (NULL);
 		if (philosopher_eat(philo) == FAILURE)
 			return (NULL);

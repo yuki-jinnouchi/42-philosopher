@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 18:55:11 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/07/11 12:04:30 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:22:24 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ int			exec(t_data *data);
 
 //thread_observer.c
 uint64_t	get_last_eat(t_philo *philo);
-int			if_someone_dead(t_data *data);
-int			if_everyone_finish(t_data *data);
+int			is_someone_dead(t_data *data);
+int			is_everyone_finish(t_data *data);
 void		finish_everyone(t_data *data);
 void		*observer(void *val);
 
@@ -123,9 +123,9 @@ void print_status(t_philo *philo, t_philo_status status);
 
 int			is_philo_starving(t_philo *philo, t_data *data);
 
-int			if_philo_dead(t_philo *philo);
-int			if_philo_finished(t_philo *philo);
-int			if_all_finished(t_data *data);
+int			is_philo_dead(t_philo *philo);
+int			is_philo_finished(t_philo *philo);
+int			is_all_finished(t_data *data);
 
 //free.c
 void		free_data(t_data *data);

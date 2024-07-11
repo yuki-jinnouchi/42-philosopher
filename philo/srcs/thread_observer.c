@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:29:34 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/04/16 17:40:53 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:22:24 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 	return (last_eat);
 // }
 
-int	if_someone_dead(t_data *data)
+int	is_someone_dead(t_data *data)
 {
 	int	i;
 
@@ -47,7 +47,7 @@ int	if_someone_dead(t_data *data)
 }
 
 //check if all philos finished eating and kill if it's true
-int	if_everyone_finish(t_data *data)
+int	is_everyone_finish(t_data *data)
 {
 	int	i;
 	int	count;
@@ -56,8 +56,8 @@ int	if_everyone_finish(t_data *data)
 	count = 0;
 	while (i < data->num_philos)
 	{
-		if (if_philo_dead(&data->philos[i]) || \
-			if_philo_finished(&data->philos[i]))
+		if (is_philo_dead(&data->philos[i]) || \
+			is_philo_finished(&data->philos[i]))
 			count ++;
 		i++;
 	}
@@ -89,16 +89,16 @@ void	*observer(void *val)
 	t_data	*data;
 
 	data = (t_data *)val;
-	while (!if_all_finished(data))
+	while (!is_all_finished(data))
 	{
-		if (if_everyone_finish(data) || if_someone_dead(data))
+		if (is_everyone_finish(data) || is_someone_dead(data))
 		{
 			pthread_mutex_lock(&data->finished_mutex);
 			data->finished = TRUE;
 			pthread_mutex_unlock(&data->finished_mutex);
 		}
-		else if (!if_all_finished(data))
-			msleep(1);
+		else if (!is_all_finished(data))
+			msleep(5);
 	}
 	return (NULL);
 }
