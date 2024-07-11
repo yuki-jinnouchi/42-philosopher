@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:05:27 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/04/16 07:39:26 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:10:58 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	init_philos_forks(t_data *data, t_philo *philo, int i)
 		philo->left_fork = &data->forks[0];
 	else
 		philo->left_fork = &data->forks[i + 1];
-	printf("philo %d right fork %p left fork %p\n", philo->num_id, philo->right_fork, philo->left_fork);
 	return (SUCCESS);
 }
 
