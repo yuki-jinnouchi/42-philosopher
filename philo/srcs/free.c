@@ -14,7 +14,7 @@
 
 void	free_data(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->num_philos)
