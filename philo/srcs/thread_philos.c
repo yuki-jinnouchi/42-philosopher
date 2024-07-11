@@ -15,7 +15,7 @@
 int	philosopher_take_right_fork(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
-	if (is_philo_dead(philo) || is_philo_finished(philo))
+	if (is_philo_finished(philo))
 	{
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
@@ -32,7 +32,7 @@ int	philosopher_take_left_fork(t_philo *philo)
 		return (FAILURE);
 	}
 	pthread_mutex_lock(philo->left_fork);
-	if (is_philo_dead(philo) || is_philo_finished(philo) || \
+	if (is_philo_finished(philo) || \
 		philo->right_fork == philo->left_fork)
 	{
 		pthread_mutex_unlock(philo->right_fork);
@@ -45,11 +45,11 @@ int	philosopher_take_left_fork(t_philo *philo)
 
 int	philosopher_sleep(t_philo *philo)
 {
-	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
+	if (is_philo_finished(philo) == TRUE)
 		return (FAILURE);
 	print_status(philo, SLEEPING);
 	msleep(philo->data->time_to_sleep);
-	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
+	if (is_philo_finished(philo) == TRUE)
 		return (FAILURE);
 	print_status(philo, THINKING);
 	return (SUCCESS);
@@ -57,19 +57,20 @@ int	philosopher_sleep(t_philo *philo)
 
 int	philosopher_eat(t_philo *philo)
 {
-	if (is_philo_dead(philo) == TRUE || is_philo_finished(philo) == TRUE)
+	if (is_philo_finished(philo) == TRUE)
 	{
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
 	}
-	print_status(philo, EATING);
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	philo->last_eat = get_current_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
+	print_status(philo, EATING);
 	msleep(philo->data->time_to_eat);
 	philo->eat_count++;
-	if (philo->data->max_time_eat != -1 && philo->eat_count >= philo->data->max_time_eat)
+	if (philo->data->max_time_eat != -1 && \
+		philo->eat_count >= philo->data->max_time_eat)
 	{
 		pthread_mutex_lock(&philo->finished_mutex);
 		philo->finished = TRUE;
@@ -87,7 +88,7 @@ void	*philosopher(void *val)
 	philo = (t_philo *)val;
 	if (philo->num_id % 2 == 1 && philo->eat_count == 0)
 		usleep(200);
-	while (!is_philo_dead(philo) && !is_philo_finished(philo))
+	while (is_philo_finished(philo) == FALSE)
 	{
 		if (philosopher_take_right_fork(philo) == FAILURE)
 			return (NULL);

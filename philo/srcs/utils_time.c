@@ -16,39 +16,39 @@
 uint64_t	get_current_time(void)
 {
 	struct timeval	tv;
-    uint64_t	time;
+	uint64_t		time;
 
 	if (gettimeofday(&tv, NULL))
 	{
 		printf("gettimeofday error\n");
 		return (0);
 	}
-    time = (uint64_t)(tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	time = (uint64_t)(tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (time);
 }
 
 uint64_t	get_time_from_start(t_data *data)
 {
 	struct timeval	tv;
-    uint64_t        time;
+	uint64_t		time;
 
 	if (gettimeofday(&tv, NULL))
 	{
 		printf("gettimeofday error\n");
 		return (0);
 	}
-    time = (uint64_t)(tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-    time = time - data->start_time;
+	time = (uint64_t)(tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	time = time - data->start_time;
 	return (time);
 }
 
 uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data)
 {
-    uint64_t        time;
+	uint64_t	time;
 
-    time = get_current_time();
+	time = get_current_time();
 	pthread_mutex_lock(&philo->last_eat_mutex);
-    time = time - philo->last_eat;
+	time = time - philo->last_eat;
 	pthread_mutex_unlock(&philo->last_eat_mutex);
 	return (time);
 }

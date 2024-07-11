@@ -12,6 +12,23 @@
 
 #include "philo.h"
 
+int	exec(t_data *data)
+{
+	int		i;
+
+	if (init_threads(data) == FAILURE)
+		return (FAILURE);
+	while (is_all_finished(data) == FALSE)
+		msleep(1);
+	i = 0;
+	while (i < data->num_philos + 1)
+	{
+		pthread_detach(data->thread_ids[i]);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 /*
 get argment and process
 - number_of_philosophers (n)
@@ -20,7 +37,6 @@ get argment and process
 - time_to_sleep (ms)
 - number_of_times_each_philosopher_must_eat (n/optional)
 */
-
 int	main(int argc, char **argv)
 {
 	t_data	*data;

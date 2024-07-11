@@ -12,22 +12,20 @@
 
 #include "philo.h"
 
-void print_status(t_philo *philo, t_philo_status status)
+void	print_status(t_philo *philo, t_philo_status status)
 {
-    uint64_t time;
+	uint64_t	time;
 
-    time = get_time_from_start(philo->data);
-    if (status == TAKE_RIGHT_FORK || status == TAKE_LEFT_FORK)
-        printf("%llu %d has taken a fork\n", time, philo->num_id);
-    if (status == THINKING)
-        printf("%llu %d is thinking\n", time, philo->num_id);
-    else if (status == EATING)
-        printf("%llu %d is eating\n", time, philo->num_id);
-    else if (status == SLEEPING)
-        printf("%llu %d is sleeping\n", time, philo->num_id);
-    else if (status == DEAD)
-        printf("%llu %d died\n", time, philo->num_id);
-    return ;
+	time = get_time_from_start(philo->data);
+	if (status == TAKE_RIGHT_FORK || status == TAKE_LEFT_FORK)
+		printf("%lu %d has taken a fork\n", time, philo->num_id);
+	if (status == THINKING)
+		printf("%lu %d is thinking\n", time, philo->num_id);
+	else if (status == EATING)
+		printf("%lu %d is eating\n", time, philo->num_id);
+	else if (status == SLEEPING)
+		printf("%lu %d is sleeping\n", time, philo->num_id);
+	else if (status == DEAD)
+		printf("%lu %d died\n", time, philo->num_id);
+	return ;
 }
-
-

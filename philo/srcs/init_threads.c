@@ -37,14 +37,8 @@ int	init_philos(t_data *data)
 		philo->eat_count = 0;
 		philo->last_eat = data->start_time;
 		pthread_mutex_init(&philo->last_eat_mutex, 0);
-		philo->dead = FALSE;
-		pthread_mutex_init(&philo->dead_mutex, 0);
 		philo->finished = FALSE;
 		pthread_mutex_init(&philo->finished_mutex, 0);
-		// philo->time_to_die = (uint64_t) data->time_to_die;
-		// philo->time_to_eat = (uint64_t) data->time_to_eat;
-		// philo->time_to_sleep = (uint64_t) data->time_to_sleep;
-		// philo->max_time_eat = data->max_time_eat;
 		philo->data = data;
 		i++;
 	}

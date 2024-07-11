@@ -23,18 +23,6 @@ int	is_philo_starving(t_philo *philo, t_data *data)
 	return (FALSE);
 }
 
-int	is_philo_dead(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->dead_mutex);
-	if (philo->dead == TRUE)
-	{
-		pthread_mutex_unlock(&philo->dead_mutex);
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&philo->dead_mutex);
-	return (FALSE);
-}
-
 int	is_philo_finished(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->finished_mutex);

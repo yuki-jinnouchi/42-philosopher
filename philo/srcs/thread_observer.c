@@ -6,39 +6,28 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:29:34 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/07/11 12:22:24 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:31:04 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// //check dead flag and kill everything if it's true
-// uint64_t	get_last_eat(t_philo *philo)
-// {
-// 	uint64_t	last_eat;
-
-// 	pthread_mutex_lock(&philo->last_eat_mutex);
-// 	last_eat = philo->last_eat;
-// 	pthread_mutex_unlock(&philo->last_eat_mutex);
-// 	return (last_eat);
-// }
-
 int	is_someone_dead(t_data *data)
 {
-	int	i;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
 	while (i < data->num_philos)
 	{
-		// printf("%llu observer checks if philo %d is dead\n", get_time_from_start(data), data->philos[i].num_id);
 		if (is_philo_starving(&data->philos[i], data))
 		{
-			pthread_mutex_lock(&data->philos[i].dead_mutex);
-			data->philos[i].dead = TRUE;
-			pthread_mutex_unlock(&data->philos[i].dead_mutex);
-			finish_everyone(data);
-			printf("duration %llu\n", get_time_from_last_eat(&data->philos[i], data));
-			printf("%llu %d died\n", get_time_from_start(data), data->philos[i].num_id);
+			philo = &data->philos[i];
+			pthread_mutex_lock(&philo->finished_mutex);
+			philo->finished = TRUE;
+			pthread_mutex_unlock(&philo->finished_mutex);
+			make_everyone_finish(data);
+			print_status(philo, DEAD);
 			return (TRUE);
 		}
 		i++;
@@ -56,32 +45,35 @@ int	is_everyone_finish(t_data *data)
 	count = 0;
 	while (i < data->num_philos)
 	{
-		if (is_philo_dead(&data->philos[i]) || \
-			is_philo_finished(&data->philos[i]))
+		if (is_philo_finished(&data->philos[i]))
 			count ++;
 		i++;
 	}
 	if (count == data->num_philos)
 	{
-		finish_everyone(data);
+		make_everyone_finish(data);
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-void	finish_everyone(t_data *data)
+void	make_everyone_finish(t_data *data)
 {
-	int	i;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
 	while (i < data->num_philos)
 	{
-		pthread_mutex_lock(&data->philos[i].finished_mutex);
-		data->philos[i].finished = TRUE;
-		pthread_mutex_unlock(&data->philos[i].finished_mutex);
-		// pthread_join(data->thread_ids[i], NULL);
+		philo = &data->philos[i];
+		pthread_mutex_lock(&philo->finished_mutex);
+		philo->finished = TRUE;
+		pthread_mutex_unlock(&philo->finished_mutex);
 		i++;
 	}
+	pthread_mutex_lock(&data->finished_mutex);
+	data->finished = TRUE;
+	pthread_mutex_unlock(&data->finished_mutex);
 }
 
 void	*observer(void *val)
@@ -89,9 +81,9 @@ void	*observer(void *val)
 	t_data	*data;
 
 	data = (t_data *)val;
-	while (!is_all_finished(data))
+	while (is_all_finished(data) == FALSE)
 	{
-		if (is_everyone_finish(data) || is_someone_dead(data))
+		if (is_everyone_finish(data) == TRUE || is_someone_dead(data) == TRUE)
 		{
 			pthread_mutex_lock(&data->finished_mutex);
 			data->finished = TRUE;

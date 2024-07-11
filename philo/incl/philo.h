@@ -23,16 +23,6 @@
 # define STDOUT 1
 # define STDERR 2
 
-typedef enum e_status
-{
-	TAKE_RIGHT_FORK,
-	TAKE_LEFT_FORK,
-	EATING,
-	SLEEPING,
-	THINKING,
-	DEAD
-} t_philo_status;
-
 # include <stdio.h> // size_t, NULL, printf, perror
 # include <unistd.h> // write, usleep
 # include <stdint.h> // uint64_t
@@ -45,6 +35,16 @@ typedef enum e_status
 # include <errno.h>
 // # include "libft.h"
 
+typedef enum e_status
+{
+	TAKE_RIGHT_FORK,
+	TAKE_LEFT_FORK,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEAD
+}	t_philo_status;
+
 typedef struct s_data	t_data;
 
 typedef struct s_philo
@@ -56,14 +56,8 @@ typedef struct s_philo
 	int				eat_count;
 	uint64_t		last_eat;
 	pthread_mutex_t	last_eat_mutex;
-	pthread_mutex_t	dead_mutex;
-	int				dead;
 	pthread_mutex_t	finished_mutex;
 	int				finished;
-	// uint64_t		time_to_die;
-	// uint64_t		time_to_eat;
-	// uint64_t		time_to_sleep;
-	// int				max_time_eat;
 	t_data			*data;
 }	t_philo;
 
@@ -103,7 +97,7 @@ int			exec(t_data *data);
 uint64_t	get_last_eat(t_philo *philo);
 int			is_someone_dead(t_data *data);
 int			is_everyone_finish(t_data *data);
-void		finish_everyone(t_data *data);
+void		make_everyone_finish(t_data *data);
 void		*observer(void *val);
 
 //thread_philos.c
@@ -119,11 +113,11 @@ uint64_t	get_time_from_start(t_data *data);
 uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data);
 void		msleep(uint64_t time);
 
-void print_status(t_philo *philo, t_philo_status status);
+void		print_status(t_philo *philo, t_philo_status status);
 
 int			is_philo_starving(t_philo *philo, t_data *data);
 
-int			is_philo_dead(t_philo *philo);
+// int			is_philo_dead(t_philo *philo);
 int			is_philo_finished(t_philo *philo);
 int			is_all_finished(t_data *data);
 
