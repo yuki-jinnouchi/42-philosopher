@@ -14,6 +14,17 @@
 
 void	free_data(t_data *data)
 {
+	int i;
+
+	i = 0;
+	while (i < data->num_philos)
+	{
+		pthread_mutex_destroy(data->philos[i].right_fork);
+		pthread_mutex_destroy(&data->philos[i].last_eat_mutex);
+		pthread_mutex_destroy(&data->philos[i].finished_mutex);
+		i++;
+	}
+	pthread_mutex_destroy(&data->finished_mutex);
 	if (data->thread_ids != NULL)
 		free(data->thread_ids);
 	if (data->philos != NULL)

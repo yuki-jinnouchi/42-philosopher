@@ -23,7 +23,7 @@ int	exec(t_data *data)
 	i = 0;
 	while (i < data->num_philos + 1)
 	{
-		pthread_detach(data->thread_ids[i]);
+		pthread_join(data->thread_ids[i], NULL);
 		i++;
 	}
 	return (SUCCESS);
