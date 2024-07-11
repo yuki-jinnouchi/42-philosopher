@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 18:55:11 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/04/16 17:40:09 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:04:30 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+
+typedef enum e_status
+{
+	TAKE_RIGHT_FORK,
+	TAKE_LEFT_FORK,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEAD
+} t_philo_status;
 
 # include <stdio.h> // size_t, NULL, printf, perror
 # include <unistd.h> // write, usleep
@@ -108,6 +118,8 @@ uint64_t	get_current_time(void);
 uint64_t	get_time_from_start(t_data *data);
 uint64_t	get_time_from_last_eat(t_philo *philo, t_data *data);
 void		msleep(uint64_t time);
+
+void print_status(t_philo *philo, t_philo_status status);
 
 int			is_philo_starving(t_philo *philo, t_data *data);
 

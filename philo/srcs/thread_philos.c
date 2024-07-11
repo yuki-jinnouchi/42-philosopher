@@ -6,7 +6,7 @@
 /*   By: yjinnouc <yjinnouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:30:13 by yjinnouc          #+#    #+#             */
-/*   Updated: 2024/04/16 17:41:24 by yjinnouc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:07:18 by yjinnouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	philosopher_take_right_fork(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
 	}
-	printf("%llu %d has taken a fork\n", get_time_from_start(philo->data), philo->num_id);
+	print_status(philo, TAKE_RIGHT_FORK);
 	return (SUCCESS);
 }
 
@@ -39,7 +39,7 @@ int	philosopher_take_left_fork(t_philo *philo)
 		pthread_mutex_unlock(philo->left_fork);
 		return (FAILURE);
 	}
-	printf("%llu %d has taken a fork\n", get_time_from_start(philo->data), philo->num_id);
+	print_status(philo, TAKE_LEFT_FORK);
 	return (SUCCESS);
 }
 
@@ -47,11 +47,11 @@ int	philosopher_sleep(t_philo *philo)
 {
 	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
 		return (FAILURE);
-	printf("%llu %d is sleeping\n", get_time_from_start(philo->data), philo->num_id);
+	print_status(philo, SLEEPING);
 	msleep(philo->data->time_to_sleep);
 	if (if_philo_dead(philo) == TRUE || if_philo_finished(philo) == TRUE)
 		return (FAILURE);
-	printf("%llu %d is thinking\n", get_time_from_start(philo->data), philo->num_id);
+	print_status(philo, THINKING);
 	return (SUCCESS);
 }
 
@@ -63,7 +63,7 @@ int	philosopher_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (FAILURE);
 	}
-	printf("%llu %d is eating\n", get_time_from_start(philo->data), philo->num_id);
+	print_status(philo, EATING);
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	philo->last_eat = get_current_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
