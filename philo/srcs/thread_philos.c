@@ -66,7 +66,6 @@ int	philosopher_eat(t_philo *philo)
 	}
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	print_status(philo, SLEEPING);
 	return (SUCCESS);
 }
 
@@ -74,6 +73,7 @@ int	philosopher_sleep(t_philo *philo)
 {
 	if (is_philo_finished(philo) == TRUE)
 		return (FAILURE);
+	print_status(philo, SLEEPING);
 	msleep(philo->data->time_to_sleep);
 	if (is_philo_finished(philo) == TRUE)
 		return (FAILURE);
